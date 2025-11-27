@@ -3,5 +3,5 @@ export default function Home() {
     <div>
       <h1>Meu amor eu te amo ❤️</h1>
     </div>
-  )
+  );
 }
