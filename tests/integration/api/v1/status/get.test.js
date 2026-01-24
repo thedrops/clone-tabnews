@@ -1,6 +1,15 @@
 test("GET to  /api/v1/status returns 200 OK", async () => {
   const response = await fetch("http://localhost:3000/api/v1/status");
   expect(response.status).toBe(200);
-  const data = await response.json();
-  expect(data).toEqual({ status: "ok" });
+
+  const responseBody = await response.json();
+  expect(responseBody.updated_at).toBeDefined();
+
+  const parsedDate = new Date(responseBody.updated_at).toISOString();
+  expect(parsedDate).not.toBe("Invalid Date");
+  expect(responseBody.updated_at).toEqual(parsedDate);
+
+  expect(responseBody.dependencies.database.version).toBe("16.0");
+  expect(responseBody.dependencies.database.max_connections).toEqual(100);
+  expect(responseBody.dependencies.database.opened_connections).toBe(1);
 });
